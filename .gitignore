@@ -1,0 +1,8 @@
+/build/
+/target/
+/.svn/
+/.settings/
+/.project
+/.springBeans
+/.classpath
+/.externalToolBuilders/
