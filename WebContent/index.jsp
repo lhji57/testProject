@@ -25,7 +25,7 @@
 <div class="mapWrapKakao">
 	<div id="mapKakao" style="width:90%;height:450px;"></div>
 	<div class="hAddr">
-		<span class="title">지도중심기준 행정동 주소정보</span>
+		<span class="title">지도중심기준 행정동 주소정보.</span>
 		<span id="centerAddr"></span>
 	</div>
 	<input type="text" id="addrTxt" style="width:450px;">
