@@ -152,6 +152,7 @@ function searchDetailAddrFromCoords(coords, callback) {
 }
 
 // 지도 좌측상단에 지도 중심좌표에 대한 주소정보를 표출하는 함수입니다
+// 테스트
 function displayCenterInfo(result, status) {
     if (status === daum.maps.services.Status.OK) {
         var infoDiv = document.getElementById('centerAddr');
@@ -165,7 +166,10 @@ function displayCenterInfo(result, status) {
         }
     }    
 }
+
+
 </script>
 
 </body>
 </html>
+
