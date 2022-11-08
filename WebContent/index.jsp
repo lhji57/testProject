@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>´ÙÀ½Áöµµ</title>
+<title>ë‹¤ìŒì§€ë„</title>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <style>
 	.mapWrapKakao {position:relative;width:100%;height:600px;}
@@ -17,80 +17,80 @@
 <body>
 
 <!-- 
-´ÙÀ½ Áöµµ
-(¾ÖÇÃ¸®ÄÉÀÌ¼Ç ÀÌ¸§ : ·ÎÄÃ_Áöµµ)
+ë‹¤ìŒ ì§€ë„
+(ì• í”Œë¦¬ì¼€ì´ì…˜ ì´ë¦„ : ë¡œì»¬_ì§€ë„)
  -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=dcdb31e68aaaf9cfe5501704f8c003ce&libraries=services"></script>
 
 <div class="mapWrapKakao">
 	<div id="mapKakao" style="width:90%;height:450px;"></div>
 	<div class="hAddr">
-		<span class="title">ÁöµµÁß½É±âÁØ ÇàÁ¤µ¿ ÁÖ¼ÒÁ¤º¸.</span>
+		<span class="title">ì§€ë„ì¤‘ì‹¬ê¸°ì¤€ í–‰ì •ë™ ì£¼ì†Œì •ë³´.</span>
 		<span id="centerAddr"></span>
 	</div>
 	<input type="text" id="addrTxt" style="width:450px;">
-	<input type="button" id="coordinateBtn"value="ÁÖ¼Ò->ÁÂÇ¥º¯È¯">
+	<input type="button" id="coordinateBtn"value="ì£¼ì†Œ->ì¢Œí‘œë³€í™˜">
 	<div id="transCoordTxt"></div>
 </div>
 
 <script>
-var mapContainer = document.getElementById('mapKakao'), // Áöµµ¸¦ Ç¥½ÃÇÒ div 
+var mapContainer = document.getElementById('mapKakao'), // ì§€ë„ë¥¼ í‘œì‹œí•  div 
 mapOption = { 
-    center: new daum.maps.LatLng(37.58067292361561, 126.9058578299751), // ÁöµµÀÇ Áß½ÉÁÂÇ¥
-    level: 3 // ÁöµµÀÇ È®´ë ·¹º§
+    center: new daum.maps.LatLng(37.58067292361561, 126.9058578299751), // ì§€ë„ì˜ ì¤‘ì‹¬ì¢Œí‘œ
+    level: 3 // ì§€ë„ì˜ í™•ëŒ€ ë ˆë²¨
 };
 
-//Áöµµ¸¦ Ç¥½ÃÇÒ div¿Í  Áöµµ ¿É¼ÇÀ¸·Î  Áöµµ¸¦ »ı¼ºÇÕ´Ï´Ù
+//ì§€ë„ë¥¼ í‘œì‹œí•  divì™€  ì§€ë„ ì˜µì…˜ìœ¼ë¡œ  ì§€ë„ë¥¼ ìƒì„±í•©ë‹ˆë‹¤
 var map = new daum.maps.Map(mapContainer, mapOption); 
-//ÁÖ¼Ò-ÁÂÇ¥ º¯È¯ °´Ã¼¸¦ »ı¼ºÇÕ´Ï´Ù
+//ì£¼ì†Œ-ì¢Œí‘œ ë³€í™˜ ê°ì²´ë¥¼ ìƒì„±í•©ë‹ˆë‹¤
 var geocoder = new daum.maps.services.Geocoder();
 
 $("#coordinateBtn").click(function(){
 	var addrTxt = $("#addrTxt").val();
 	
-	// ÁÖ¼Ò·Î ÁÂÇ¥¸¦ °Ë»öÇÕ´Ï´Ù
+	// ì£¼ì†Œë¡œ ì¢Œí‘œë¥¼ ê²€ìƒ‰í•©ë‹ˆë‹¤
 	geocoder.addressSearch(addrTxt, function(result, status) {
 
-	    // Á¤»óÀûÀ¸·Î °Ë»öÀÌ ¿Ï·áµÆÀ¸¸é 
+	    // ì •ìƒì ìœ¼ë¡œ ê²€ìƒ‰ì´ ì™„ë£Œëìœ¼ë©´ 
 	     if (status === daum.maps.services.Status.OK) {
 
 	        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
 	        
-	        //´Ù¸¥ ÁÂÇ¥°è·Î º¯È¯ÇÒ °æ¿ì
+	        //ë‹¤ë¥¸ ì¢Œí‘œê³„ë¡œ ë³€í™˜í•  ê²½ìš°
 	     	transCoord(result[0].y, result[0].x);
 	     	
-	        // °á°ú°ªÀ¸·Î ¹ŞÀº À§Ä¡¸¦ ¸¶Ä¿·Î Ç¥½ÃÇÕ´Ï´Ù
+	        // ê²°ê³¼ê°’ìœ¼ë¡œ ë°›ì€ ìœ„ì¹˜ë¥¼ ë§ˆì»¤ë¡œ í‘œì‹œí•©ë‹ˆë‹¤
 	        var marker = new daum.maps.Marker({
 	            map: map,
 	            position: coords
 	        });
 
-	        // ÀÎÆ÷À©µµ¿ì·Î Àå¼Ò¿¡ ´ëÇÑ ¼³¸íÀ» Ç¥½ÃÇÕ´Ï´Ù
+	        // ì¸í¬ìœˆë„ìš°ë¡œ ì¥ì†Œì— ëŒ€í•œ ì„¤ëª…ì„ í‘œì‹œí•©ë‹ˆë‹¤
 	        var infowindow = new daum.maps.InfoWindow({
 	            content: '<div style="width:250px;text-align:center;padding:5px 5px;">X : '+result[0].x+' <br/> Y : '+result[0].y+'</div>'
 	        });
 	        infowindow.open(map, marker);
 
-	        // ÁöµµÀÇ Áß½ÉÀ» °á°ú°ªÀ¸·Î ¹ŞÀº À§Ä¡·Î ÀÌµ¿½ÃÅµ´Ï´Ù
+	        // ì§€ë„ì˜ ì¤‘ì‹¬ì„ ê²°ê³¼ê°’ìœ¼ë¡œ ë°›ì€ ìœ„ì¹˜ë¡œ ì´ë™ì‹œí‚µë‹ˆë‹¤
 	        map.setCenter(coords);
 	    } 
 	});
 	
 })
 
-/* ¹Ş¾Æ¿Â ÁÂÇ¥¸¦ ´Ù¸¥ ÁÂÇ¥°èÀÇ ÁÂÇ¥·Î º¯È¯ÇÑ´Ù.
- * input_coord : ÀÔ·Â ÁÂÇ¥ Ã¼°è. ±âº»°ªÀº WGS84
- * output_coord : Ãâ·Â ÁÂÇ¥ Ã¼°è. ±âº»°ªÀº WGS84
- * * WGS84		: WGS84 ÁÂÇ¥°è
- * * WCONGNAMUL	: WCONGNAMUL ÁÂÇ¥°è
- * * CONGNAMUL	: CONGNAMUL ÁÂÇ¥°è
- * * WTM		: WTM ÁÂÇ¥°è
- * * TM			: TM ÁÂÇ¥°è
+/* ë°›ì•„ì˜¨ ì¢Œí‘œë¥¼ ë‹¤ë¥¸ ì¢Œí‘œê³„ì˜ ì¢Œí‘œë¡œ ë³€í™˜í•œë‹¤.
+ * input_coord : ì…ë ¥ ì¢Œí‘œ ì²´ê³„. ê¸°ë³¸ê°’ì€ WGS84
+ * output_coord : ì¶œë ¥ ì¢Œí‘œ ì²´ê³„. ê¸°ë³¸ê°’ì€ WGS84
+ * * WGS84		: WGS84 ì¢Œí‘œê³„
+ * * WCONGNAMUL	: WCONGNAMUL ì¢Œí‘œê³„
+ * * CONGNAMUL	: CONGNAMUL ì¢Œí‘œê³„
+ * * WTM		: WTM ì¢Œí‘œê³„
+ * * TM			: TM ì¢Œí‘œê³„
  */
 function transCoord(y, x){
-	// WTM ÁÂÇ¥¸¦ WGS84 ÁÂÇ¥°èÀÇ ÁÂÇ¥·Î º¯È¯ÇÑ´Ù
+	// WTM ì¢Œí‘œë¥¼ WGS84 ì¢Œí‘œê³„ì˜ ì¢Œí‘œë¡œ ë³€í™˜í•œë‹¤
 	geocoder.transCoord(x, y, function(result, status){
-		// Á¤»óÀûÀ¸·Î °Ë»öÀÌ ¿Ï·áµÆÀ¸¸é 
+		// ì •ìƒì ìœ¼ë¡œ ê²€ìƒ‰ì´ ì™„ë£Œëìœ¼ë©´ 
 	     if (status === daum.maps.services.Status.OK) {
 	    	 console.log(result);
 	    	 $("#transCoordTxt").html("X : "+ result[0].x +" <br> Y : "+ result[0].y);
@@ -101,64 +101,64 @@ function transCoord(y, x){
 	});
 }
 
-var marker = new daum.maps.Marker(), // Å¬¸¯ÇÑ À§Ä¡¸¦ Ç¥½ÃÇÒ ¸¶Ä¿ÀÔ´Ï´Ù
-    infowindow = new daum.maps.InfoWindow({zindex:1}); // Å¬¸¯ÇÑ À§Ä¡¿¡ ´ëÇÑ ÁÖ¼Ò¸¦ Ç¥½ÃÇÒ ÀÎÆ÷À©µµ¿ìÀÔ´Ï´Ù
+var marker = new daum.maps.Marker(), // í´ë¦­í•œ ìœ„ì¹˜ë¥¼ í‘œì‹œí•  ë§ˆì»¤ì…ë‹ˆë‹¤
+    infowindow = new daum.maps.InfoWindow({zindex:1}); // í´ë¦­í•œ ìœ„ì¹˜ì— ëŒ€í•œ ì£¼ì†Œë¥¼ í‘œì‹œí•  ì¸í¬ìœˆë„ìš°ì…ë‹ˆë‹¤
 
-// ÇöÀç Áöµµ Áß½ÉÁÂÇ¥·Î ÁÖ¼Ò¸¦ °Ë»öÇØ¼­ Áöµµ ÁÂÃø »ó´Ü¿¡ Ç¥½ÃÇÕ´Ï´Ù
+// í˜„ì¬ ì§€ë„ ì¤‘ì‹¬ì¢Œí‘œë¡œ ì£¼ì†Œë¥¼ ê²€ìƒ‰í•´ì„œ ì§€ë„ ì¢Œì¸¡ ìƒë‹¨ì— í‘œì‹œí•©ë‹ˆë‹¤
 searchAddrFromCoords(map.getCenter(), displayCenterInfo);
 
-// Áöµµ¸¦ Å¬¸¯ÇßÀ» ¶§ Å¬¸¯ À§Ä¡ ÁÂÇ¥¿¡ ´ëÇÑ ÁÖ¼ÒÁ¤º¸¸¦ Ç¥½ÃÇÏµµ·Ï ÀÌº¥Æ®¸¦ µî·ÏÇÕ´Ï´Ù
+// ì§€ë„ë¥¼ í´ë¦­í–ˆì„ ë•Œ í´ë¦­ ìœ„ì¹˜ ì¢Œí‘œì— ëŒ€í•œ ì£¼ì†Œì •ë³´ë¥¼ í‘œì‹œí•˜ë„ë¡ ì´ë²¤íŠ¸ë¥¼ ë“±ë¡í•©ë‹ˆë‹¤
 daum.maps.event.addListener(map, 'click', function(mouseEvent) {
     searchDetailAddrFromCoords(mouseEvent.latLng, function(result, status) {
         if (status === daum.maps.services.Status.OK) {
         	
-        	// Å¬¸¯ÇÑ À§µµ, °æµµ Á¤º¸¸¦ °¡Á®¿É´Ï´Ù 
+        	// í´ë¦­í•œ ìœ„ë„, ê²½ë„ ì •ë³´ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤ 
             var latlng = mouseEvent.latLng;
         	
-            var detailAddr = !!result[0].road_address ? '<div>µµ·Î¸íÁÖ¼Ò : ' + result[0].road_address.address_name + '</div>' : '';
-            detailAddr += '<div>Áö¹ø ÁÖ¼Ò : ' + result[0].address.address_name + '</div>';
-            detailAddr += '<div>À§µµ : ' + latlng.getLat() + '</div>';
-            detailAddr += '<div>°æµµ : ' + latlng.getLng() + '</div>';
+            var detailAddr = !!result[0].road_address ? '<div>ë„ë¡œëª…ì£¼ì†Œ : ' + result[0].road_address.address_name + '</div>' : '';
+            detailAddr += '<div>ì§€ë²ˆ ì£¼ì†Œ : ' + result[0].address.address_name + '</div>';
+            detailAddr += '<div>ìœ„ë„ : ' + latlng.getLat() + '</div>';
+            detailAddr += '<div>ê²½ë„ : ' + latlng.getLng() + '</div>';
             
             var content = '<div class="bAddr">' +
-                            '<span class="title">¹ıÁ¤µ¿ ÁÖ¼ÒÁ¤º¸</span>' + 
+                            '<span class="title">ë²•ì •ë™ ì£¼ì†Œì •ë³´</span>' + 
                             detailAddr + 
                         '</div>';
 
-            // ¸¶Ä¿¸¦ Å¬¸¯ÇÑ À§Ä¡¿¡ Ç¥½ÃÇÕ´Ï´Ù 
+            // ë§ˆì»¤ë¥¼ í´ë¦­í•œ ìœ„ì¹˜ì— í‘œì‹œí•©ë‹ˆë‹¤ 
             marker.setPosition(mouseEvent.latLng);
             marker.setMap(map);
 
-            // ÀÎÆ÷À©µµ¿ì¿¡ Å¬¸¯ÇÑ À§Ä¡¿¡ ´ëÇÑ ¹ıÁ¤µ¿ »ó¼¼ ÁÖ¼ÒÁ¤º¸¸¦ Ç¥½ÃÇÕ´Ï´Ù
+            // ì¸í¬ìœˆë„ìš°ì— í´ë¦­í•œ ìœ„ì¹˜ì— ëŒ€í•œ ë²•ì •ë™ ìƒì„¸ ì£¼ì†Œì •ë³´ë¥¼ í‘œì‹œí•©ë‹ˆë‹¤
             infowindow.setContent(content);
             infowindow.open(map, marker);
         }   
     });
 });
 
-// Áß½É ÁÂÇ¥³ª È®´ë ¼öÁØÀÌ º¯°æµÆÀ» ¶§ Áöµµ Áß½É ÁÂÇ¥¿¡ ´ëÇÑ ÁÖ¼Ò Á¤º¸¸¦ Ç¥½ÃÇÏµµ·Ï ÀÌº¥Æ®¸¦ µî·ÏÇÕ´Ï´Ù
+// ì¤‘ì‹¬ ì¢Œí‘œë‚˜ í™•ëŒ€ ìˆ˜ì¤€ì´ ë³€ê²½ëì„ ë•Œ ì§€ë„ ì¤‘ì‹¬ ì¢Œí‘œì— ëŒ€í•œ ì£¼ì†Œ ì •ë³´ë¥¼ í‘œì‹œí•˜ë„ë¡ ì´ë²¤íŠ¸ë¥¼ ë“±ë¡í•©ë‹ˆë‹¤
 daum.maps.event.addListener(map, 'idle', function() {
     searchAddrFromCoords(map.getCenter(), displayCenterInfo);
 });
 
 function searchAddrFromCoords(coords, callback) {
-    // ÁÂÇ¥·Î ÇàÁ¤µ¿ ÁÖ¼Ò Á¤º¸¸¦ ¿äÃ»ÇÕ´Ï´Ù
+    // ì¢Œí‘œë¡œ í–‰ì •ë™ ì£¼ì†Œ ì •ë³´ë¥¼ ìš”ì²­í•©ë‹ˆë‹¤
     geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);         
 }
 
 function searchDetailAddrFromCoords(coords, callback) {
-    // ÁÂÇ¥·Î ¹ıÁ¤µ¿ »ó¼¼ ÁÖ¼Ò Á¤º¸¸¦ ¿äÃ»ÇÕ´Ï´Ù
+    // ì¢Œí‘œë¡œ ë²•ì •ë™ ìƒì„¸ ì£¼ì†Œ ì •ë³´ë¥¼ ìš”ì²­í•©ë‹ˆë‹¤
     geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
 }
 
-// Áöµµ ÁÂÃø»ó´Ü¿¡ Áöµµ Áß½ÉÁÂÇ¥¿¡ ´ëÇÑ ÁÖ¼ÒÁ¤º¸¸¦ Ç¥ÃâÇÏ´Â ÇÔ¼öÀÔ´Ï´Ù
-// Å×½ºÆ®
+// ì§€ë„ ì¢Œì¸¡ìƒë‹¨ì— ì§€ë„ ì¤‘ì‹¬ì¢Œí‘œì— ëŒ€í•œ ì£¼ì†Œì •ë³´ë¥¼ í‘œì¶œí•˜ëŠ” í•¨ìˆ˜ì…ë‹ˆë‹¤
+// í…ŒìŠ¤íŠ¸
 function displayCenterInfo(result, status) {
     if (status === daum.maps.services.Status.OK) {
         var infoDiv = document.getElementById('centerAddr');
 
         for(var i = 0; i < result.length; i++) {
-            // ÇàÁ¤µ¿ÀÇ region_type °ªÀº 'H' ÀÌ¹Ç·Î
+            // í–‰ì •ë™ì˜ region_type ê°’ì€ 'H' ì´ë¯€ë¡œ
             if (result[i].region_type === 'H') {
                 infoDiv.innerHTML = result[i].address_name;
                 break;
@@ -170,6 +170,7 @@ function displayCenterInfo(result, status) {
 //test
 //test
 //test
+//4
 </script>
 
 </body>
