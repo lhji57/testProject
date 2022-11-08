@@ -174,6 +174,7 @@ function displayCenterInfo(result, status) {
 //test
 //4
 //5
+//6
 </script>
 
 </body>
